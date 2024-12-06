@@ -6,7 +6,7 @@
 /*   By: dsonmez <dsonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 19:49:03 by dsonmez           #+#    #+#             */
-/*   Updated: 2024/11/24 22:06:53 by dsonmez          ###   ########.fr       */
+/*   Updated: 2024/12/06 20:15:15 by dsonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,18 @@ char	*ft_strjoin(const char *s1,const char *s2)
 	*str = '\0';
 	return (start);
 }
-
-size_t	ft_strchr(const char *s)
+int	ft_strchr(const char *s, int c)
 {
-    int i;
+	int	i;
 
 	i = 0;
-	while (s && s[i])
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
 	{
-		if (s[i] == '\n')
-			return (i);
+		if (s[i] == c)
+			return (1);
 		i++;
 	}
-	return (i);
+	return (0);
 }
