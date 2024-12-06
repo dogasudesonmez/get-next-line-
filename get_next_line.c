@@ -6,7 +6,7 @@
 /*   By: dsonmez <dsonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 21:08:02 by dsonmez           #+#    #+#             */
-/*   Updated: 2024/12/06 20:12:48 by dsonmez          ###   ########.fr       */
+/*   Updated: 2024/12/06 21:33:57 by dsonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,14 @@ char *read_all(int fd, char *buffer)
         if (!first_buff)
             return  (NULL);
         bytes_read = read(fd, first_buff, BUFFER_SIZE);
-        if(bytes_read == -1 || (!buffer && bytes_read == 0))
-            return (free(first_buff), NULL);
+        if (bytes_read == -1 || (bytes_read == 0 && !buffer))
+        {
+            free(first_buff);
+            return (NULL);
+        }
         first_buff[bytes_read] = '\0';
         buffer = ft_strjoin(buffer, first_buff);
+        free(first_buff);
     }
     return (buffer);
 }
@@ -38,7 +42,7 @@ char *get_line(char *buffer)
     int     i;
 
     i = 0;
-    if(!*buffer)
+    if(!*buffer || !buffer)
         return (NULL);
     while(buffer[i] != '\0' && buffer[i] != '\n')
         i++;
@@ -82,6 +86,7 @@ char    *get_rest(char *buffer, char *line)
     while(buffer[i])
         rest[j++] = buffer[i++];
     rest[j] = '\0';
+    free(buffer);
     return (rest);
 }
 
@@ -100,6 +105,12 @@ char *get_next_line(int fd)
         return (NULL);
     }
     line = get_line(buffer);
+     if (!line)
+    {
+        free(buffer);
+        buffer = NULL;
+        return (NULL);
+    }
     buffer = get_rest(buffer, line);
     return (line);
 }

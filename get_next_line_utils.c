@@ -6,7 +6,7 @@
 /*   By: dsonmez <dsonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 19:49:03 by dsonmez           #+#    #+#             */
-/*   Updated: 2024/12/06 20:15:15 by dsonmez          ###   ########.fr       */
+/*   Updated: 2024/12/06 21:15:49 by dsonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,33 @@ char	*ft_strdup(const char *s1)
 	dup[k] = '\0';
 	return (dup);
 }
-char	*ft_strjoin(const char *s1,const char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*start;
-	char	*str;
+    int i = 0;
+    int j = 0;
+    char *joined;
 
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-	str = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	start = str;
-	while (*s1)
-		*str++ = *s1++;
-	while (*s2)
-		*str++ = *s2++;
-	*str = '\0';
-	return (start);
+    if (!s1 && !s2)
+        return (NULL);
+    if (!s1)
+        return (s2);
+    if (!s2)
+        return (s1);
+    joined = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+    if (!joined)
+        return (NULL);
+    while (s1[i])
+    {
+        joined[i] = s1[i];
+        i++;
+    }
+    while (s2[j])
+    {
+        joined[i + j] = s2[j];
+        j++;
+    }
+    joined[i + j] = '\0';
+    return (free(s1), joined);
 }
 int	ft_strchr(const char *s, int c)
 {
